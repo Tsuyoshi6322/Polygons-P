@@ -1,20 +1,27 @@
-# Introduction 
-TODO: Give a short introduction of your project. Let this section explain the objectives or the motivation behind this project. 
+1. Wczytaj dane z pliku “dane.txt”
+    - “dane.txt” zawiera cztery punkty (x,y), z których można utworzyć figury trapezoidalne.
+    - format tych danych to (x1;y1 x2;y2 x3;y3 x4; y4).
+    - plik można tworzyć, edytować, lub usunąć w programie.
+2. Przeanalizuj punkty w pliku dane.txt i dodaj do niego nazwę figury
+    - edycja danych w pliku dane.txt
+    - do formatu (x1;y1 x2;y2 x3;y3 x4;y4 | figura)
+    - Dostępne figury:
+    trapez, prostokąt, kwadrat,
+    trójkąt równoboczny, równoramienny, różnoboczny
+3. Oblicz pola powierzchni i obwody figur zgodnie z wymiarami
+    - Długości wektorów pomiędzy Px1 a Px2 etc.
+    - Wyprowadź dane do konsoli
+    - Zapisz dane do pliku ‘output.txt’
+    
 
-# Getting Started
-TODO: Guide users through getting your code up and running on their own system. In this section you can talk about:
-1.	Installation process
-2.	Software dependencies
-3.	Latest releases
-4.	API references
+Przykład wejścia  - Format (x1;y1;x2;y2;x3;y3;x4;y4)
 
-# Build and Test
-TODO: Describe and show how to build your code and run the tests. 
+<span style="color:blue;">Data.txt <br></span>
+<span style="color:blue;">1;1;2;1;1;2;2;2 <br></span>
+<span style="color:blue;">1;1;2;1;1;2;2;20 <br></span>
 
-# Contribute
-TODO: Explain how other users and developers can contribute to make your code better. 
+Przykład wyjścia w formacie (x1;y1;x2;y2;x3;y3;x4;y4; pole; obwód; figura)
 
-If you want to learn more about creating good readme files then refer the following [guidelines](https://docs.microsoft.com/en-us/azure/devops/repos/git/create-a-readme?view=azure-devops). You can also seek inspiration from the below readme files:
-- [ASP.NET Core](https://github.com/aspnet/Home)
-- [Visual Studio Code](https://github.com/Microsoft/vscode)
-- [Chakra Core](https://github.com/Microsoft/ChakraCore)
+<span style="color:red;">1;1;2;1;1;2;2;2;1;4; kwadrat<br></span>
+<span style="color:red;">1;1;2;1;1;2;2;20;0;0; figura nie poprawna<br></span>
+###
