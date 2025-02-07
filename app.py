@@ -1,9 +1,21 @@
-# =============== IMPORT DANYCH =============== 
+# =============== PUNKTY =============== 
+class Point:
+    def __inti__(self, x, y):
+        self.x = x
+        self.y = y
+
+# =============== ZARZADZANIE PLIKIEM =============== 
+def data_file_exists():
+    print("Czy plik data.txt istnieje?")
+
 def data_file_import():
     print("Import danych z pliku")
 
 def data_manual_import():
     print("Dane manualnie wprowadzone")
+
+def data_file_export():
+    print("Eksport wyniku do pliku")
 
 # =============== ZDEFINIOWANIE FIGURY =============== 
 def polygon_calculate_points():
@@ -28,14 +40,9 @@ def polygon_calculate_perimeter():
 def polygon_calculate_main():
     print("Wynikowe pole, figura i obwód")
 
-# =============== EXPORT DANYCH =============== 
-def data_file_export():
-    print("Eksport wyniku do pliku")
-
-
 # =============== MAIN =============== 
 def main():
-    print("Skąd dane wprowadzić?")
+    print("Głowna funkcja")
 
 if __name__ == "__main__":
     main()
