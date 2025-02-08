@@ -1,1 +1,1 @@
-0;0;4;0;4;4;0;4;Kwadrat
+0;0;4;0;0;3;Trojkat Prostokatny;6.0;12.0

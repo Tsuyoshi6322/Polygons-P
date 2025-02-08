@@ -38,15 +38,24 @@ def data_file_import(file_path):
     labels_3 = ["A", "B", "C", "D"]
 
     with open(file_path, "r") as file:
-        data = list(map(float, file.read().strip().split(";")))
-
-    if len(data) == 8:    
-        return {labels[i]: Point(data[i * 2], data[i * 2 + 1]) for i in range(4)}, len(data)
-    elif len (data) == 6:
-        return {labels_3[i]: Point(data[i * 2], data[i * 2 + 1]) for i in range(3)}, len(data)
+        data = file.read().strip().split(";")
+        
+    # Filtrujemy dane, pozostawiając tylko liczby
+    filtered_data = []
+    for value in data:
+        try:
+            filtered_data.append(float(value))  # Próba konwersji na float
+        except ValueError:
+            continue  # Jeśli nie uda się przekonwertować, pomijamy wartość
+    
+    if len(filtered_data) == 8:    
+        return {labels[i]: Point(filtered_data[i * 2], filtered_data[i * 2 + 1]) for i in range(4)}, len(filtered_data)
+    elif len(filtered_data) == 6:
+        return {labels_3[i]: Point(filtered_data[i * 2], filtered_data[i * 2 + 1]) for i in range(3)}, len(filtered_data)
     else:
         print("Error: Plik musi zawierać współrzędne dla 3 lub 4 punktów!")
-        return None, len(data)
+        return None, len(filtered_data)
+
 
 # Warunek aby user wprowadził dane x;x;y;y;z;z; a nie xxyyzz
 def data_manual_get_valid_input(user_input_prompt):
@@ -202,26 +211,75 @@ def polygon_define_main(file_path, epsilon):
     elif polygon == "czworokąt":
         polygon_defined = polygon_is_quadrilateral(file_path, epsilon)
 
-    data_file_export(file_path, polygon_defined)
+    # Sprawdzanie, czy polygon_defined już istnieje w pliku
+    with open(file_path, "r") as file:
+        content = file.read().strip()
+
+    # Jeśli polygon_defined nie znajduje się w pliku, dodajemy go
+    if polygon_defined not in content:
+        data_file_export(file_path, polygon_defined)
 
 # =============== OBLICZENIE POLA I OBWODU FIGURY =============== 
 # Obliczenie pola figury
 def polygon_calculate_area(file_path, polygon_defined, epsilon):
     points, _ = data_file_import(file_path)
 
+    point_a = points.get("A")
+    point_b = points.get("B")
+    point_c = points.get("C")
+    point_d = points.get("D")
+
+    AB = polygon_distance(point_a, point_b)
+    BC = polygon_distance(point_b, point_c)
+    CA = polygon_distance(point_c, point_a)
+    if point_d is not None:
+        CD = polygon_distance(point_c, point_d)
+
+    if polygon_defined == "Trojkat Rownoboczny" or "Trojkat Prostokatny" or "Trojkat Rownoramienny" or "Trojkat Roznoboczny":
+        half_perimeter = round((AB + BC + CA) / 2, 2)
+        area_calculated = math.sqrt(half_perimeter * (half_perimeter - AB) * (half_perimeter - BC) * (half_perimeter - CA))
+
+    elif polygon_defined == "Kwadrat":
+        area_calculated = round(AB ** 2, 2)
+
+    elif polygon_defined == "Prostokąt":
+        area_calculated = round(AB * BC, 2)
+
+    elif polygon_defined == "Trapez":
+        base_a = AB
+        base_b = CD
+        height = polygon_distance(point_b, point_d)
+        area_calculated = round((base_a + base_b) * height / 2, 2)
+    else:
+        print("Error: Nie udało się obliczyć pola figury")
+        exit()
+        
     return area_calculated
 
 # Obliczenie obwodu figury
 def polygon_calculate_perimeter(file_path, polygon_defined, epsilon):
-    points, _ = data_file_import(file_path)
+    points, pointsCount = data_file_import(file_path)
+
+    labels = ["A", "B", "C", "D"]
+
+    if pointsCount == 6:
+        perimeter_calculated = sum(polygon_distance(points[labels[i]], points[labels[(i+1)%3]]) for i in range(3))
+
+    elif pointsCount == 8:
+        perimeter_calculated = sum(polygon_distance(points[labels[i]], points[labels[(i+1)%4]]) for i in range(4))
+
+    else:
+        print("Error: Nieznany typ figury lub nieprawidłowa liczba punktów.")
+        exit()
 
     return perimeter_calculated
 
 # Wynik - eksport do pliku
 def polygon_calculate_main(file_path, epsilon):
+    polygon_defined = polygon_define_main(file_path, epsilon)
 
-    area_calculated = polygon_calculate_area(file_path, epsilon)
-    perimeter_calculated = polygon_calculate_perimeter(file_path, epsilon)
+    area_calculated = polygon_calculate_area(file_path, polygon_defined, epsilon)
+    perimeter_calculated = polygon_calculate_perimeter(file_path, polygon_defined, epsilon)
 
     data_file_export(file_path, area_calculated)
     data_file_export(file_path, perimeter_calculated)
@@ -245,8 +303,9 @@ def main():
 
     # Potrzebne do obliczeń
     epsilon = 0.01
-
     polygon_define_main(file_path, epsilon)
+    polygon_calculate_main(file_path, epsilon)
+    
 
 
 # =============== TEST FUNCTIONS =============== 
