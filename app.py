@@ -1,4 +1,5 @@
 import os
+import re
 
 # =============== PUNKTY =============== 
 class Point:
@@ -37,6 +38,16 @@ def data_file_import(file_path):
     else:
         print("Błąd: Plik musi zawierać współrzędne dla 3 lub 4 punktów!")
 
+def data_manual_get_valid_input(user_input_prompt):
+    while True:
+        user_input = input(user_input_prompt).strip()
+
+        # Sprawdzamy poprawność formatu (6 lub 8 liczb oddzielonych średnikami)
+        if re.fullmatch(r"(\d+;){5}\d+" , user_input) or re.fullmatch(r"(\d+;){7}\d+", user_input):
+            return user_input
+        else:
+            print("Proszę podać 6 lub 8 liczb oddzielonych średnikami (np. 1;1;2;2;3;3;4;4)")
+
 
 def data_manual_import(file_path):
 
@@ -44,9 +55,11 @@ def data_manual_import(file_path):
 
     user_choice = input("Czy chcesz wprowadzić dane manualnie? (Y/N): ")
     if user_choice == 'Y':
-        data_manual = input("Wprowadź współrzędne: ")
+        data_manual = data_manual_get_valid_input("Wprowadź dane: ")
+
         with open(file_path, "w") as file:
             file.write(data_manual)
+
     else:
         print("nie tworzenie pliku")
 
