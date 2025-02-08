@@ -76,7 +76,6 @@ def data_manual_import(file_path):
 
         with open(file_path, "w") as file:
             file.write(data_manual)
-
     else:
         print("nie tworzenie pliku")
 
@@ -114,7 +113,7 @@ def polygon_calculate_points(file_path):
         collinear = p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)
         return collinear
 
-    if point_d is None:
+    if point_d is None: # W przypadku działania na trójkątach
         collinear = polygon_are_collinear(point_a, point_b, point_c)
     else:
         collinear = polygon_are_collinear(point_a, point_b, point_c)
@@ -122,6 +121,7 @@ def polygon_calculate_points(file_path):
         + polygon_are_collinear(point_a, point_c, point_d)
         + polygon_are_collinear(point_b, point_c, point_d)
     
+    # Jeżeli punkty są kolinearne, to nie tworzą figury
     if collinear == 0:
         print("Error: To nie jest figura!")
         polygon = "to nie jest figura"
@@ -150,6 +150,7 @@ def polygon_is_triangle(file_path, epsilon):
     point_b = points.get("B")
     point_c = points.get("C")
     
+    # Długości boków
     AB = polygon_distance(point_a, point_b)
     BC = polygon_distance(point_b, point_c)
     CA = polygon_distance(point_c, point_a)
@@ -229,6 +230,7 @@ def polygon_calculate_area(file_path, polygon_defined, epsilon):
     point_c = points.get("C")
     point_d = points.get("D")
 
+    # Długości boków
     AB = polygon_distance(point_a, point_b)
     BC = polygon_distance(point_b, point_c)
     CA = polygon_distance(point_c, point_a)
@@ -262,10 +264,10 @@ def polygon_calculate_perimeter(file_path, polygon_defined, epsilon):
 
     labels = ["A", "B", "C", "D"]
 
-    if pointsCount == 6:
+    if pointsCount == 6: # Dla trójkątów
         perimeter_calculated = sum(polygon_distance(points[labels[i]], points[labels[(i+1)%3]]) for i in range(3))
 
-    elif pointsCount == 8:
+    elif pointsCount == 8: # Dla czworokątów
         perimeter_calculated = sum(polygon_distance(points[labels[i]], points[labels[(i+1)%4]]) for i in range(4))
 
     else:
@@ -281,6 +283,7 @@ def polygon_calculate_main(file_path, epsilon):
     area_calculated = polygon_calculate_area(file_path, polygon_defined, epsilon)
     perimeter_calculated = polygon_calculate_perimeter(file_path, polygon_defined, epsilon)
 
+    # Eksport wyników do pliku
     data_file_export(file_path, area_calculated)
     data_file_export(file_path, perimeter_calculated)
 
@@ -303,16 +306,12 @@ def main():
 
     # Potrzebne do obliczeń
     epsilon = 0.01
+
+    # Główne działanie programu
     polygon_define_main(file_path, epsilon)
     polygon_calculate_main(file_path, epsilon)
-    
 
-
-# =============== TEST FUNCTIONS =============== 
-# points,_ = data_file_import(file_path)
-# print(", ".join(f"{label}{point}" for label, point in points.items()))
-
-    
+    print("Program zakończył działanie...")
 
 # =============== MAIN EXEC =============== 
 if __name__ == "__main__":
