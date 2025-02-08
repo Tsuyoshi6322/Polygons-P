@@ -12,25 +12,43 @@ class Point:
 # =============== ZARZADZANIE PLIKIEM =============== 
 def data_file_exists(file_path):
     if not os.path.exists(file_path):
-        print("Błąd: Plik data.txt nie istnieje.")
+        print("Ostrzeżenie: Plik data.txt nie istnieje.")
         return 0
+        
     else:
         print("Plik data.txt istnieje.")
         return 1
 
 
 def data_file_import(file_path):
-    #print("Import danych z pliku")
+    
+    # TODO: Wyprowadzenie liczby punktów uzyskanych z pliku
+
     labels = ["A", "B", "C", "D"]
+    labels_3 = ["A", "B", "C", "D"]
 
     with open(file_path, "r") as file:
         data = list(map(int, file.read().strip().split(";")))
 
-    return {labels[i]: Point(data[i * 2], data[i * 2 + 1]) for i in range(len(labels))}
+    if len(data) == 8:    
+        return {labels[i]: Point(data[i * 2], data[i * 2 + 1]) for i in range(4)}
+    elif len (data) == 6:
+        return {labels_3[i]: Point(data[i * 2], data[i * 2 + 1]) for i in range(3)}
+    else:
+        print("Błąd: Plik musi zawierać współrzędne dla 3 lub 4 punktów!")
 
 
-def data_manual_import():
-    print("Dane manualnie wprowadzone")
+def data_manual_import(file_path):
+
+    # TODO: Warunek aby user wprowadził dane x;x;y;y;z;z;a;a a nie xxyyzzaa
+
+    user_choice = input("Czy chcesz wprowadzić dane manualnie? (Y/N): ")
+    if user_choice == 'Y':
+        data_manual = input("Wprowadź współrzędne: ")
+        with open(file_path, "w") as file:
+            file.write(data_manual)
+    else:
+        print("nie tworzenie pliku")
 
 
 def data_file_export():
@@ -74,9 +92,11 @@ def main():
     # Czy plik istnieje?
     exists = data_file_exists(file_path)
 
-    if exists == 1: # Import współrzędnych z pliku
-        points = data_file_import(file_path)
-        print(", ".join(f"{label}{point}" for label, point in points.items()))
+    if exists == 0:
+        data_manual_import(file_path)
+
+    points = data_file_import(file_path)
+    print(", ".join(f"{label}{point}" for label, point in points.items()))
 
 if __name__ == "__main__":
     main()
