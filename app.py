@@ -1,5 +1,6 @@
 import os
 import re
+import math
 
 # =============== PUNKTY =============== 
 class Point:
@@ -24,7 +25,7 @@ def data_file_exists(file_path):
             content = file.read().strip()
             print("Sprawdzanie zawartości pliku...")
 
-        if re.fullmatch(r"(\d+;)*\d+", content):
+        if re.fullmatch(r"(\d+(\.\d+)?(;(\d+(\.\d+)?))*)?", content):
             print("Plik data.txt zawiera tylko liczby... OK")
             return 1
         else:
@@ -37,7 +38,7 @@ def data_file_import(file_path):
     labels_3 = ["A", "B", "C", "D"]
 
     with open(file_path, "r") as file:
-        data = list(map(int, file.read().strip().split(";")))
+        data = list(map(float, file.read().strip().split(";")))
 
     if len(data) == 8:    
         return {labels[i]: Point(data[i * 2], data[i * 2 + 1]) for i in range(4)}, len(data)
@@ -90,7 +91,6 @@ def polygon_calculate_points(file_path):
     points, pointsCount = data_file_import(file_path)
 
     if pointsCount == 6 or pointsCount == 8:
-        polygon = "valid" # Placeholder value
         point_a = points.get("A")
         point_b = points.get("B")
         point_c = points.get("C")
@@ -115,7 +115,8 @@ def polygon_calculate_points(file_path):
     
     if collinear == 0:
         print("Error: To nie jest figura!")
-        polygon = "Brak"
+        polygon = "to nie jest figura"
+        exit()
     else:
         if pointsCount == 6:
             polygon = "trójkąt"
@@ -124,34 +125,106 @@ def polygon_calculate_points(file_path):
         else:
             print("Error: Out of scope")
             polygon = "inny wielokąt"
+            exit()
 
     return polygon
 
+# Obliczenie długości boku
+def polygon_distance(p1,p2):
+    return math.dist((p1.x, p1.y), (p2.x, p2.y))
+
 # Typ trójkąta    
-def polygon_is_triangle():
-    print("Typ trójkąta")
+def polygon_is_triangle(file_path, epsilon):
+    points, _ = data_file_import(file_path)
+
+    point_a = points.get("A")
+    point_b = points.get("B")
+    point_c = points.get("C")
+    
+    AB = polygon_distance(point_a, point_b)
+    BC = polygon_distance(point_b, point_c)
+    CA = polygon_distance(point_c, point_a)
+
+    if math.isclose(AB, BC, rel_tol=epsilon) and math.isclose(BC, CA, rel_tol=epsilon):
+        polygon_defined = "Trojkat Rownoboczny"
+    elif math.isclose(AB**2 + BC**2, CA**2) or math.isclose(AB**2 + CA**2, BC**2) or math.isclose(BC**2 + CA**2, AB**2):
+        polygon_defined = "Trojkat Prostokatny"
+    elif AB == BC or AB == CA or BC == CA:
+        polygon_defined = "Trojkat Rownoramienny"
+    else:
+        polygon_defined = "Trojkat Roznoboczny"
+
+    return polygon_defined
 
 # Typ czworokąta
-def polygon_is_quadrilateral():
-    print("Typ czworokąta")
+def polygon_is_quadrilateral(file_path, epsilon):
+    points, _ = data_file_import(file_path)
+
+    point_a = points.get("A")
+    point_b = points.get("B")
+    point_c = points.get("C")
+    point_d = points.get("D")
+
+    # Boki
+    AB = polygon_distance(point_a, point_b)
+    BC = polygon_distance(point_b, point_c)
+    CD = polygon_distance(point_c, point_d)
+    DA = polygon_distance(point_d, point_a)
+
+    # Przekątne
+    AC = polygon_distance(point_a, point_c)
+    BD = polygon_distance(point_b, point_d)
+
+    # Sprawdzanie czy to kwadrat
+    if math.isclose(AB, BC, rel_tol=epsilon) and \
+          math.isclose(BC, CD, rel_tol=epsilon) and \
+          math.isclose(CD, DA, rel_tol=epsilon):
+        polygon_defined = "Kwadrat"
+    # Sprawdzanie czy to prostokąt
+    elif (math.isclose(AB, CD, rel_tol=epsilon) and math.isclose(BC, DA, rel_tol=epsilon)) and \
+         math.isclose(AC, BD, rel_tol=epsilon):
+        polygon_defined = "Prostokat"
+    # Sprawdzanie czy to trapez
+    elif (math.isclose(AB, CD, rel_tol=epsilon) and math.isclose(BC, DA, rel_tol=epsilon)) or \
+         (math.isclose(AB, DA, rel_tol=epsilon) and math.isclose(BC, CD, rel_tol=epsilon)):
+        polygon_defined = "Trapez"
+    else:
+        polygon_defined = "Inny Czworokat"
+    
+    return polygon_defined
 
 # Wynikowa figura
-def polygon_define_main(file_path):
-    print("Zdefiniowanie figury")
-    polygonDefined = "Zdefiniowana figura"
-    data_file_export(file_path, polygonDefined)
+def polygon_define_main(file_path, epsilon):
+    polygon = polygon_calculate_points(file_path)
+
+    if polygon == "trójkąt":
+        polygon_defined = polygon_is_triangle(file_path, epsilon)
+    elif polygon == "czworokąt":
+        polygon_defined = polygon_is_quadrilateral(file_path, epsilon)
+
+    data_file_export(file_path, polygon_defined)
 
 # =============== OBLICZENIE POLA I OBWODU FIGURY =============== 
-def polygon_calculate_area():
-    print("Obliczenie pola figury")
+# Obliczenie pola figury
+def polygon_calculate_area(file_path, polygon_defined, epsilon):
+    points, _ = data_file_import(file_path)
 
+    return area_calculated
 
-def polygon_calculate_perimeter():
-    print("Obliczenie obwodu figury")
+# Obliczenie obwodu figury
+def polygon_calculate_perimeter(file_path, polygon_defined, epsilon):
+    points, _ = data_file_import(file_path)
 
+    return perimeter_calculated
 
-def polygon_calculate_main():
-    print("Wynikowe pole, figura i obwód")
+# Wynik - eksport do pliku
+def polygon_calculate_main(file_path, epsilon):
+
+    area_calculated = polygon_calculate_area(file_path, epsilon)
+    perimeter_calculated = polygon_calculate_perimeter(file_path, epsilon)
+
+    data_file_export(file_path, area_calculated)
+    data_file_export(file_path, perimeter_calculated)
 
 # =============== MAIN =============== 
 def main():
@@ -170,13 +243,17 @@ def main():
     else: # Gdy są w nim błędy
         exit()
 
+    # Potrzebne do obliczeń
+    epsilon = 0.01
+
+    polygon_define_main(file_path, epsilon)
+
 
 # =============== TEST FUNCTIONS =============== 
-    points,_ = data_file_import(file_path)
-    print(", ".join(f"{label}{point}" for label, point in points.items()))
+# points,_ = data_file_import(file_path)
+# print(", ".join(f"{label}{point}" for label, point in points.items()))
 
-    text =polygon_calculate_points(file_path)
-    print(text)
+    
 
 # =============== MAIN EXEC =============== 
 if __name__ == "__main__":
