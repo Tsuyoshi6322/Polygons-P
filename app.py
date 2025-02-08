@@ -11,9 +11,12 @@ class Point:
 
 # =============== ZARZADZANIE PLIKIEM =============== 
 def data_file_exists(file_path):
-    #print("Czy plik data.txt istnieje?")
     if not os.path.exists(file_path):
-        print(f"Błąd: Plik data.txt nie istnieje!")# PH
+        print("Błąd: Plik data.txt nie istnieje.")
+        return 0
+    else:
+        print("Plik data.txt istnieje.")
+        return 1
 
 
 def data_file_import(file_path):
@@ -64,14 +67,16 @@ def polygon_calculate_main():
 # =============== MAIN =============== 
 def main():
     
-    # Import funkcji
+    # Deklaracja pliku data.txt
     script_dir = os.path.dirname(os.path.abspath(__file__))
-
     file_path = os.path.join(script_dir, "data.txt")
 
-    points = data_file_import(file_path)
+    # Czy plik istnieje?
+    exists = data_file_exists(file_path)
 
-    print(", ".join(f"{label}{point}" for label, point in points.items()))
+    if exists == 1: # Import współrzędnych z pliku
+        points = data_file_import(file_path)
+        print(", ".join(f"{label}{point}" for label, point in points.items()))
 
 if __name__ == "__main__":
     main()
