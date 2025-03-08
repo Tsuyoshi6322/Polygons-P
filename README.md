@@ -1,30 +1,31 @@
-Oblicz powierzchnie oraz obwód figur trapezoidalnych zadanych przez użytkownika 4 punktami (x,y).
+# Polygons-P (Uni project)
+---
+## Main functionality
+Calculate the area and perimeter of trapezoidal figures specified by the user with four points (*x*, *y*). 
+The data is read from an input file "data.txt" or entered by the user and appended to the input file.
 
-Dane mogą być sczytane z pliku wejściowego „data.txt” lub wprowadzone przez użytkownika i dopisane do pliku wejściowego.
+The results are output to the same file. 
+The program also determines whether the given coordinates form:
+- Trapezoid
+- Rectangle
+- Square
+- Equilateral triangle
+- Isosceles triangle
+- Scalene triangle 
+- or do not form any of these figures. (out-of-scope)
 
-Wyniki wyprowadź do pliku wyjściowego.
+### Input example
 
-Poinformuj użytkownika czy podane współrzędne tworzą trapez, prostokąt, kwadrat, trójkąt równoboczny, trójkąt równoramienny, trójkąt różnoboczny lub ze nie tworzą żadnej z tych figur.
-
-Uwzględnij sytuacje w których punkty zadawane są w dowolnej kolejności
-
-Przykład wejścia  - Format (x1;y1;x2;y2;x3;y3;x4;y4)
-
-*Data.txt*
-
-*1;1;2;1;1;2;2;2*
-
+>*1;1;2;1;1;2;2;2*\
 *1;1;2;1;1;2;2;20*
 
-Przykład wyjścia w formacie (x1;y1;x2;y2;x3;y3;x4;y4;pole,obwod;figura)
+### Output example
+>*1;1;2;1;1;2;2;2;	1;	4;	square*\
+*1;1;2;1;1;2;2;20;	0;	0; polygon out-of-scope*
 
-*1;1;2;1;1;2;2;2;1;4;kwadrat*
+---
+## Example run
 
-*1;1;2;1;1;2;2;20;0;0; figura nie poprawna*
-
-**Proponowane Menu programu**
-
-1. Wczytaj dane z pliku
-2. Dodaj dane o figurze (zapis do pliku dane.txt dodatkowej informacji o kolejnej figurze)
-3. Wylicz pola powierzchni i obwody – (pokazuje to w konsoli)
-4. Wyprowadź wyniki do pliku wyjściowego („output.txt”)
+1. Load coordinates from the file "data.txt" or input them manually
+2. Calculate the area and permiter of the polygon and define it's type.
+3. Output the results next to the input in the file "data.txt".

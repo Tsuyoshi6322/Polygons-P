@@ -1,0 +1,6 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+# And yes, the .vs folder should be ignored - github copilot doesn't want to be staged
+################################################################################
+
+/.vs
