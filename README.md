@@ -1,7 +1,11 @@
 # Polygons-P (Uni project)
+
+The CLI based program that calculates the area and 
+perimeter polygons defined by the user.
+
 ---
 ## Main functionality
-Calculate the area and perimeter of trapezoidal figures specified by the user with four points (*x*, *y*). 
+Calculate the area and perimeter of polygons specified by the user with four points (*x*, *y*). 
 The data is read from an input file "data.txt" or entered by the user and appended to the input file.
 
 The results are output to the same file. 
