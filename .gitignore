@@ -5,4 +5,6 @@
 
 /.vs
 /functions/__pycache__
+/classes/__pycache__
+/.env/Lib/site-packages/pip/__pycache__
 /2data.txt
