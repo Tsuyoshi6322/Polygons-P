@@ -1,7 +1,12 @@
 # Polygons-P (Uni project)
 
 The CLI based program that calculates the area and 
-perimeter polygons defined by the user.
+perimeter of polygons defined by the user.
+
+This project was created as a part of the university course "Programming 101".
+
+First version was created on 2025-02-08 and is stored as a one-file program old.app.py.\
+Mind that the output strings and comments are in polish... and that it's kinda messy.
 
 ---
 ## Main functionality
