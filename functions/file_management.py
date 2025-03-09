@@ -1,8 +1,7 @@
 ﻿import os
 import re
 from classes import point
-from .output_messages import *
-from functions import output_messages
+from functions.output_messages import *
 
 
 # Does the file exist? If not, create one. If it does, check its contents.
@@ -82,10 +81,10 @@ def data_manual_get_valid_input(user_input_prompt):
 
 # Manual data entry
 def data_manual_import(file_path):
-    user_choice = input(output_messages("input", "Would you like to manually input data? (Y/N)")).upper()
+    user_choice = input(output_message("input", "Would you like to manually input data? (Y/N)")).upper()
 
     if user_choice == 'Y':
-        data_manual = data_manual_get_valid_input(output_messages("input", "Please provide coordinates: "))
+        data_manual = data_manual_get_valid_input(output_message("input", "Please provide coordinates: "))
 
         with open(file_path, "w") as file:
             output_message("status", "Importing manual input data")

@@ -1,7 +1,7 @@
 ﻿import math
-from .file_management import *
-from .polygon_definition import *
-from .output_messages import *
+from functions.file_management import *
+from functions.polygon_definition import *
+from functions.output_messages import *
 
 
 # Calculate the area of the polygon

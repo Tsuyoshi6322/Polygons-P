@@ -1,5 +1,7 @@
 # Fancy ASCII colours for the terminal output
 
+import sys
+
 def output_message(message_type, message):
     RESET = '\033[0m'
     CYAN = '\033[38;5;51m'
@@ -11,7 +13,7 @@ def output_message(message_type, message):
         case "error":
             RED = '\033[38;5;196m'
             print(f"[{RED}Error{RESET}]:   {message}. Exiting...\n")
-            exit()
+            sys.exit()
 
         case "warning":
             ORANGE = '\033[38;5;214m'

@@ -1,5 +1,9 @@
+import os
 from classes import *
-from functions import *
+from functions.file_management import data_manual_import, data_file_exists
+from functions.polygon_definition import polygon_define_main
+from functions.perimeter_area_calculation import polygon_calculate_main
+from functions.output_messages import *
 
 # Declaration of the file path
 script_dir = os.path.dirname(os.path.abspath(__file__))

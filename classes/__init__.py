@@ -1,1 +1,1 @@
-from .point import *
+from classes.point import point
