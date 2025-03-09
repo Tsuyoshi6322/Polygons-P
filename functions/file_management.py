@@ -15,7 +15,7 @@ def data_file_exists(file_path):
 
         # Open the file and read its contents
         with open(file_path, "r") as file:
-            output_message("status", "Checking file's contents")
+            output_message("status", "Validating file's contents")
 
             content = file.read().strip()
 
@@ -33,8 +33,7 @@ def data_file_import(file_path):
     labels_3 = ["A", "B", "C", "D"]
 
     with open(file_path, "r") as file:
-        output_message("status", "Checking file's contents")
-
+        output_message("status", "Splitting the data to import")
         data = file.read().strip().split(";")
 
     # Filter data to contain only numbers
@@ -50,6 +49,8 @@ def data_file_import(file_path):
             continue
 
     # Check if the file contains coordinates of three or four points
+    output_message("status", "Validating imported data")
+
     if len(filtered_data) == 8:
         output_message("ok", "File contains coordinates of four points")
         return {labels[i]: point(filtered_data[i * 2], filtered_data[i * 2 + 1]) for i in range(4)}, len(filtered_data)
@@ -87,7 +88,7 @@ def data_manual_import(file_path):
         data_manual = data_manual_get_valid_input(output_messages("input", "Please provide coordinates: "))
 
         with open(file_path, "w") as file:
-            output_message("status", "Writing data to file")
+            output_message("status", "Importing manual input data")
             file.write(data_manual)
 
     else:
@@ -97,7 +98,7 @@ def data_manual_import(file_path):
 # Data export to a file
 def data_file_export(file_path, *values):
     with open(file_path, "r") as file:
-        output_message("status", "Reading file's contents")
+        output_message("status", "Accessing the file")
         lines = file.readlines()
 
     if lines:

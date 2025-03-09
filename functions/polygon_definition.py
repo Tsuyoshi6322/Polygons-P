@@ -4,7 +4,6 @@ from .output_messages import *
 
 # Are the points collinear?
 def polygon_are_collinear(p1, p2, p3, p4=None):
-    output_message("status", "Checking if the points are collinear")
 
     collinear = p1.x * (p2.y - p3.y) + p2.x * (p3.y - p1.y) + p3.x * (p1.y - p2.y)
     return collinear
@@ -23,6 +22,7 @@ def polygon_calculate_points(file_path):
     else:
         output_message("error", "Polygon is out of scope")
 
+    output_message("status", "Checking if the points are collinear")
 
     # In case of triangles
     if point_d is None:
@@ -55,8 +55,6 @@ def polygon_calculate_points(file_path):
 
 # Calculate the distance between two points
 def polygon_distance(p1,p2):
-    output_message("status", "Calculating the distance between two points")
-
     return math.dist((p1.x, p1.y), (p2.x, p2.y))
 
 
@@ -72,6 +70,7 @@ def polygon_is_triangle(file_path, epsilon):
     point_c = points.get("C")
 
     # Distances between points
+    output_message("status", "Calculating the distance between two points")
     AB = polygon_distance(point_a, point_b)
     BC = polygon_distance(point_b, point_c)
     CA = polygon_distance(point_c, point_a)
@@ -98,7 +97,7 @@ def polygon_is_triangle(file_path, epsilon):
 
 # Determine the type of quadrilateral
 def polygon_is_quadrilateral(file_path, epsilon):
-    output_message("status", "The polygon is a quadrilateral")
+    output_message("ok", "The polygon is a quadrilateral")
     output_message("status", "Determining the type of the quadrilateral")
 
     points, _ = data_file_import(file_path)
@@ -157,10 +156,9 @@ def polygon_define_main(file_path, epsilon):
 
     # Does the polygon type exist in the file?
     with open(file_path, "r") as file:
-        output_message("status", "Reading file contents")
+        output_message("status", "Searching for already existing data")
         content = file.read().strip()
 
     # If not, write the results to the file
     if polygon_defined not in content:
-        output_message("status", "Writing the results to file")
         data_file_export(file_path, polygon_defined)
