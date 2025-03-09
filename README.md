@@ -1,4 +1,4 @@
-# Polygons-P (Uni project)
+# Uni Project - Polygons
 
 The CLI based program that calculates the area and 
 perimeter of polygons defined by the user.
