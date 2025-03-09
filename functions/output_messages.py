@@ -10,22 +10,22 @@ def output_message(message_type, message):
 
         case "error":
             RED = '\033[38;5;196m'
-            print(f"[{RED}Error{RESET}]:   {message}. Exiting...")
+            print(f"[{RED}Error{RESET}]:   {message}. Exiting...\n")
             exit()
 
         case "warning":
             ORANGE = '\033[38;5;214m'
-            print(f"[{ORANGE}Warning{RESET}]: {message}!")
+            print(f"[{ORANGE}Warning{RESET}]: {message}!\n")
 
         case "ok":
             GREEN = '\033[38;5;46m'
-            print(f"[{GREEN}OK{RESET}]:      {message}.")
+            print(f"[{GREEN}OK{RESET}]:      {message}.\n")
 
         case "status":
-            print(f"[{CYAN}Status{RESET}]:  {message}...")
+            print(f"[{CYAN}Status{RESET}]:  {message}...\n")
 
         case "exit":
-            print(f"[{CYAN}Exit{RESET}]:    {message}. Exiting...")
+            print(f"[{CYAN}Exit{RESET}]:    {message}. Exiting...\n")
 
         case _:
             output_message("error", f"The function output_message() could not match the message type")
