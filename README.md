@@ -1,7 +1,16 @@
 # Polygons-P (Uni project)
+
+The CLI based program that calculates the area and 
+perimeter of polygons defined by the user.
+
+This project was created as a part of the university course "Programming 101".
+
+First version was created on 2025-02-08 and is stored as a one-file program old.app.py.\
+Mind that the output strings and comments are in polish... and that it's kinda messy.
+
 ---
 ## Main functionality
-Calculate the area and perimeter of trapezoidal figures specified by the user with four points (*x*, *y*). 
+Calculate the area and perimeter of polygons specified by the user with four points (*x*, *y*). 
 The data is read from an input file "data.txt" or entered by the user and appended to the input file.
 
 The results are output to the same file. 
